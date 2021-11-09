@@ -80,6 +80,12 @@
             </v-toolbar>
           </template>
           ##Fim Form
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon small class="mr-2" @click="editItem(item)">
+              mdi-pencil
+            </v-icon>
+            <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+          </template>
         </v-data-table>
       </v-col>
     </v-row>
@@ -102,6 +108,8 @@ export default {
     ],
     usuarios: [],
     editedItem: { id: 0, nome: "", pais: "Brasil" },
+    editedItemIndex: -1,
+    defaultItem: { id: 0, nome: "", pais: "Brasil" },
   }),
   methods: {
     inicializa() {
@@ -112,19 +120,55 @@ export default {
         })
         .catch((error) => console.log(error));
     },
-    save() {
-      axios
-        .post("http://localhost:3000/usuarios", this.editedItem)
-        .then((response) => {
-          console.log(response);
-          this.dialog = false;
-          this.inicializa();
-          this.editedItem = { id: 0, nome: "", pais: "Brasil" };
-        })
-        .catch((error) => console.log(error));
-    },
+
     close() {
       this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
+    },
+    save() {
+      if (this.editedIndex > -1) {
+        //alteracao
+        axios
+          .put(
+            "http://localhost:3000/usuarios/" + this.editedItem.id,
+            this.editedItem
+          )
+          .then((response) => {
+            console.log(response);
+            Object.assign(this.usuarios[this.editedIndex], this.editedItem);
+            this.close();
+          })
+          .catch((error) => console.log(error));
+      } else {
+        //Inclusao
+        axios
+          .post("http://localhost:3000/usuarios", this.editedItem)
+          .then((response) => {
+            console.log(response);
+            this.usuarios.push(this.editedItem);
+            this.close();
+          })
+          .catch((error) => console.log(error));
+      }
+    },
+    editItem(item) {
+      this.editedIndex = this.usuarios.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+    deleteItem(item) {
+      const index = this.usuarios.indexOf(item);
+      confirm("Deseja apagar este item?") &&
+        axios
+          .delete("http://localhost:3000/usuarios/" + item.id)
+          .then((response) => {
+            console.log(response.data);
+            this.usuarios.splice(index, 1);
+          })
+          .catch((error) => console.log(error));
     },
   },
   created() {

@@ -2,21 +2,14 @@
   "usuarios": [
     {
       "id": 1,
-      "nome": "Joao",
+      "nome": "Maria",
       "pais": "Brasil",
-      "tipo_id": "1"
-    },
-    {
-      "id": 2,
-      "nome": "Pedro",
-      "pais": "Portugal",
       "tipo_id": "1"
     },
     {
       "id": 3,
-      "nome": "Maria",
-      "pais": "Brasil",
-      "tipo_id": "1"
+      "nome": "Helton",
+      "pais": "Brasil"
     },
     {
       "id": "4",
