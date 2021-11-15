@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <h1>UserCrud</h1>
+        <h1>Cadastro de Usuarios</h1>
         <v-data-table
           :headers="headers"
           :items="usuarios"
@@ -38,7 +38,7 @@
                 </template>
                 <v-card>
                   <v-card-title>
-                    <span class="headline">UserCrud</span>
+                    <span class="headline">Usuários</span>
                   </v-card-title>
 
                   <v-card-text>
@@ -95,7 +95,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: "UserCrud",
+  name: "UsuarioCrud",
 
   data: () => ({
     search: "",

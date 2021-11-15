@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/Home'
-import UserCrud from '../components/UserCrud'
+import UsuarioCrud from '../components/UsuarioCrud'
 
 
 Vue.use(VueRouter)
@@ -13,8 +13,8 @@ const routes = [
     component: Home
   },
   {
-    path: '/users',
-    component: UserCrud
+    path: '/usuarios',
+    component: UsuarioCrud
     
   }
 ]
