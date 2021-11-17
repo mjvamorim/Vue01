@@ -4,17 +4,19 @@
       "id": 1,
       "nome": "Maria",
       "pais": "Brasil",
-      "tipo_id": "1"
+      "tipo_id": 2
     },
     {
       "id": 3,
-      "nome": "Helton",
-      "pais": "Brasil"
+      "nome": "Helton4",
+      "pais": "Brasil",
+      "tipo_id": 1
     },
     {
       "id": "4",
       "nome": "Luiza",
-      "pais": "Coreia"
+      "pais": "Coreia",
+      "tipo_id": 3
     }
   ],
   "tipos": [
@@ -25,6 +27,10 @@
     {
       "id": 2,
       "descricao": "Professor"
+    },
+    {
+      "id": 3,
+      "descricao": "Aluno"
     }
   ]
 }

@@ -2,10 +2,10 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <h1>Cadastro de Usuarios</h1>
+        <h1>Cadastro de Tipos</h1>
         <v-data-table
           :headers="headers"
-          :items="usuarios"
+          :items="tipos"
           :search="search"
           sort-by="id"
           class="elevation-1"
@@ -52,25 +52,9 @@
                         </v-col>
                         <v-col cols="12" sm="6" md="8">
                           <v-text-field
-                            v-model="editedItem.nome"
-                            label="Nome"
+                            v-model="editedItem.descricao"
+                            label="Descrição"
                           ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="editedItem.pais"
-                            label="Localização"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-select
-                            v-model="editedItem.tipo_id"
-                            :items="tipos"
-                            label="Tipo"
-                            item-text="descricao"
-                            item-value="id"
-                            return-value
-                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -109,50 +93,29 @@
 <script>
 import axios from "axios";
 export default {
-  name: "UsuarioCrud",
+  name: "TipoCrud",
 
   data: () => ({
     search: "",
     dialog: false,
     headers: [
       { text: "Id", value: "id" },
-      { text: "Nome", value: "nome" },
-      { text: "Localização", value: "pais" },
-      { text: "Tipo", value: "tipo_id" },
+      { text: "Descrição", value: "descricao" },
       { text: "Actions", value: "actions", sortable: false },
     ],
-    usuarios: [],
     tipos: [],
-    editedItem: { id: 0, nome: "", pais: "Brasil", tipo_id: 0 },
+    editedItem: { id: 0, descricao: "" },
     editedItemIndex: -1,
-    defaultItem: { id: 0, nome: "", pais: "Brasil", tipo_id: 0 },
+    defaultItem: { id: 0, descricao: "" },
   }),
   methods: {
-    descricao(id) {
-      var descricao = this.tipos.find((x) => x.id === id);
-      descricao = descricao ? descricao.descricao : "Tipo Desconhecido";
-      return descricao;
-    },
     inicializa() {
-      axios
-        .get("http://localhost:3000/usuarios")
-        .then((response) => {
-          this.usuarios = response.data;
-        })
-        .catch((error) => console.log(error));
       axios
         .get("http://localhost:3000/tipos")
         .then((response) => {
           this.tipos = response.data;
         })
         .catch((error) => console.log(error));
-
-      // axios
-      //   .get("http://localhost:3000/tipos")
-      //   .then((response) => {
-      //     this.tipos = response.data;
-      //   })
-      //   .catch((error) => console.log(error));
     },
 
     close() {
@@ -167,40 +130,40 @@ export default {
         //alteracao
         axios
           .put(
-            "http://localhost:3000/usuarios/" + this.editedItem.id,
+            "http://localhost:3000/tipos/" + this.editedItem.id,
             this.editedItem
           )
           .then((response) => {
             console.log(response);
-            Object.assign(this.usuarios[this.editedIndex], this.editedItem);
+            Object.assign(this.tipos[this.editedIndex], this.editedItem);
             this.close();
           })
           .catch((error) => console.log(error));
       } else {
         //Inclusao
         axios
-          .post("http://localhost:3000/usuarios", this.editedItem)
+          .post("http://localhost:3000/tipos", this.editedItem)
           .then((response) => {
             console.log(response);
-            this.usuarios.push(this.editedItem);
+            this.tipos.push(this.editedItem);
             this.close();
           })
           .catch((error) => console.log(error));
       }
     },
     editItem(item) {
-      this.editedIndex = this.usuarios.indexOf(item);
+      this.editedIndex = this.tipos.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
     deleteItem(item) {
-      const index = this.usuarios.indexOf(item);
+      const index = this.tipos.indexOf(item);
       confirm("Deseja apagar este item?") &&
         axios
-          .delete("http://localhost:3000/usuarios/" + item.id)
+          .delete("http://localhost:3000/tipos/" + item.id)
           .then((response) => {
             console.log(response.data);
-            this.usuarios.splice(index, 1);
+            this.tipos.splice(index, 1);
           })
           .catch((error) => console.log(error));
     },
